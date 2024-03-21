@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>404</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: linear-gradient(45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            padding: 20px;
+        }
+        
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        h1 {
+            color: #333;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        button:hover {
+            background-color: #0056b7;
+            transform: scale(1.1);
+        }
+        div {
+            margin-bottom: 30px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        div:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        .loading {
+            display: none;
+            color: #333;
+            font-weight: bold;
+            margin-top: 10px;
+            animation: pulse 1s infinite alternate;
+        }
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0.5;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1></h1>
+    
+    <div>
+        <h2>频率控制</h2>
+        <button id="increaseTempBtn">+1</button>
+        <button id="decreaseTempBtn">-1</button>
+        <p id="currentTemp">当前频率：10°C</p>
+    </div>
+    
+    <div>
+        <h2>模式选择</h2>
+        <button id="coolModeBtn" onclick="showMode('冰冰凉凉')">冰冰凉凉</button>
+        <button id="heatModeBtn" onclick="showMode('暖暖热热')">暖暖热热</button>
+        <button id="fanModeBtn" onclick="showMode('电🐔小子')">电🐔小子</button>
+        <p id="currentMode"></p>
+    </div>
+    
+    <div>
+        <h2>电源控制</h2>
+        <button id="powerBtn" onclick="togglePower()">开启</button>
+        <div class="loading" id="loadingText">正在连接...</div>
+        <div class="loading" id="successText" style="color: green; font-weight: bold; display: none;">连接成功</div>
+    </div>
+
+    <script>
+        function showMode(mode) {
+            document.getElementById('currentMode').textContent = '当前模式：' + mode;
+        }
+
+        function togglePower() {
+            let btn = document.getElementById('powerBtn');
+            let loadingText = document.getElementById('loadingText');
+            let successText = document.getElementById('successText');
+            if (btn.textContent === '开启') {
+                btn.textContent = '关闭';
+                loadingText.style.display = 'block';
+                setTimeout(function() {
+                    loadingText.style.display = 'none';
+                    successText.style.display = 'block';
+                    setTimeout(function() {
+                        successText.style.display = 'none';
+                    }, 2000); // 2秒后隐藏连接成功文本
+                }, 3000); // 3秒后隐藏加载文本
+            } else {
+                btn.textContent = '开启';
+            }
+        }
+
+        document.getElementById('increaseTempBtn').addEventListener('click', function() {
+            let currentTemp = document.getElementById('currentTemp');
+            let temp = parseInt(currentTemp.textContent);
+            temp++;
+            currentTemp.textContent = '当前频率：' + temp + '°C';
+        });
+
+        document.getElementById('decreaseTempBtn').addEventListener('click', function() {
+            let currentTemp = document.getElementById('currentTemp');
+            let temp = parseInt(currentTemp.textContent);
+            temp--;
+            currentTemp.textContent = '当前频率：' + temp + '°C';
+        });
+    </script>
+</body>
+</html>
