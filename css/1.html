@@ -6,96 +6,103 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             text-align: center;
             background: linear-gradient(45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
             padding: 20px;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         
         @keyframes gradientBG {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         h1 {
-            color: #333;
+            color: #fff;
+            margin-bottom: 50px;
         }
+
+        .control-panel {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            transition: all 0.3s ease;
+        }
+
+        .control-panel:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
         button {
             padding: 10px 20px;
-            margin: 10px;
+            margin: 5px;
             background-color: #007bff;
             color: #fff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
         button:hover {
             background-color: #0056b7;
             transform: scale(1.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-        div {
-            margin-bottom: 30px;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
+
+        p {
+            margin: 10px 0;
+            color: #333;
         }
-        div:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
+
         .loading {
             display: none;
             color: #333;
             font-weight: bold;
-            margin-top: 10px;
             animation: pulse 1s infinite alternate;
         }
+
         @keyframes pulse {
-            0% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0.5;
-            }
+            0% { opacity: 1; }
+            100% { opacity: 0.5; }
         }
     </style>
 </head>
 <body>
-    <h1></h1>
-    
-    <div>
-        <h2>频率控制</h2>
-        <button id="increaseTempBtn">+1</button>
-        <button id="decreaseTempBtn">-1</button>
-        <p id="currentTemp">当前频率：10°C</p>
-    </div>
-    
-    <div>
-        <h2>模式选择</h2>
-        <button id="coolModeBtn" onclick="showMode('冰冰凉凉')">冰冰凉凉</button>
-        <button id="heatModeBtn" onclick="showMode('暖暖热热')">暖暖热热</button>
-        <button id="fanModeBtn" onclick="showMode('电🐔小子')">电🐔小子</button>
-        <p id="currentMode"></p>
-    </div>
-    
-    <div>
-        <h2>电源控制</h2>
-        <button id="powerBtn" onclick="togglePower()">开启</button>
-        <div class="loading" id="loadingText">正在连接...</div>
-        <div class="loading" id="successText" style="color: green; font-weight: bold; display: none;">连接成功</div>
+    <div class="control-panel">
+        <div>
+            <h2>频率</h2>
+            <button id="increaseTempBtn">+1</button>
+            <button id="decreaseTempBtn">-1</button>
+            <p id="currentTemp">当前频率：10°C</p>
+        </div>
+        
+        <div>
+            <h2>模式选择</h2>
+            <button id="coolModeBtn" onclick="showMode('冰冰凉凉')">冰冰凉凉</button>
+            <button id="heatModeBtn" onclick="showMode('暖暖热热')">暖暖热热</button>
+            <button id="fanModeBtn" onclick="showMode('电🐔小子')">电🐔小子</button>
+            <p id="currentMode"></p>
+        </div>
+        
+        <div>
+            <h2>电源控制</h2>
+            <button id="powerBtn" onclick="togglePower()">开启</button>
+            <div class="loading" id="loadingText">正在连接...</div>
+            <div class="loading" id="successText" style="color: green; font-weight: bold; display: none;">连接成功</div>
+        </div>
     </div>
 
     <script>
@@ -115,8 +122,8 @@
                     successText.style.display = 'block';
                     setTimeout(function() {
                         successText.style.display = 'none';
-                    }, 2000); // 2秒后隐藏连接成功文本
-                }, 3000); // 3秒后隐藏加载文本
+                    }, 2000);
+                }, 3000);
             } else {
                 btn.textContent = '开启';
             }
@@ -124,16 +131,16 @@
 
         document.getElementById('increaseTempBtn').addEventListener('click', function() {
             let currentTemp = document.getElementById('currentTemp');
-            let temp = parseInt(currentTemp.textContent);
+            let temp = parseInt(currentTemp.textContent.split('°C')[0], 10);
             temp++;
-            currentTemp.textContent = '当前频率：' + temp + '°C';
+            currentTemp.textContent = '当前温度：' + temp + '°C';
         });
 
         document.getElementById('decreaseTempBtn').addEventListener('click', function() {
             let currentTemp = document.getElementById('currentTemp');
-            let temp = parseInt(currentTemp.textContent);
+            let temp = parseInt(currentTemp.textContent.split('°C')[0], 10);
             temp--;
-            currentTemp.textContent = '当前频率：' + temp + '°C';
+            currentTemp.textContent = '当前温度：' + temp + '°C';
         });
     </script>
 </body>
